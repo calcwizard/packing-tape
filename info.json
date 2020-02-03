@@ -1,0 +1,10 @@
+{
+	"name": "packing-tape",
+	"version": "18.1.0",
+	"factorio_version": "0.18",
+	"title": "Packing Tape",
+	"author": "calcwizard",
+	"homepage": "",
+	"dependencies": ["base"],
+	"description": "Mining a chest or wagon allows player to pick it up with all the items inside and carry it in their inventory. Probably not balanced."
+}

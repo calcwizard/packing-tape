@@ -1,0 +1,23 @@
+---------------------------------------------------------------------------------------------------
+Version: 18.1.0
+Date: 2020-02-03
+  Features:
+    - Players can now pack up chests by mining them, no hotkey needed.
+---------------------------------------------------------------------------------------------------
+Version: 18.0.1
+Date: 2020-02-03
+  Bugfixes:
+    - Fixed conflict with mods that have chests without icons (that can't be created by players).
+---------------------------------------------------------------------------------------------------
+Version: 18.0.0
+Date: 2020-01-27
+  Features:
+    - Updated to Factorio version 0.18
+  Graphics:
+    - New icon for carried chests
+---------------------------------------------------------------------------------------------------
+Version: 17.0.0
+Date: 2020-01-16
+  Features:
+    - Adds a hotkey that allows players to pick up a chest with all the items inside it
+    - Keeps configuration on logistics chests
