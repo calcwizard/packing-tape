@@ -57,7 +57,8 @@ local function add_icons(container)
 end
 
 local function create_pickup_chest(container)
-	if is_placeable(container.flags or {}) then
+	-- not_inventory_moveable is an optional flag mods can set to have their chest excluded
+	if not container.not_inventory_moveable and is_placeable(container.flags or {}) then
 		data:extend{
 		{
 			name = "packing-tape-" .. container.name,
@@ -74,14 +75,9 @@ local function create_pickup_chest(container)
 	end
 end
 
-for _,proto in pairs(data.raw.container) do
-	create_pickup_chest(proto)
-end
-
-for _,proto in pairs(data.raw["logistic-container"]) do
-	create_pickup_chest(proto)
-end
-
-for _,proto in pairs(data.raw["cargo-wagon"]) do
-	create_pickup_chest(proto)
+local container_types = {"container","logistic-container","cargo-wagon","car"}
+for _,type in pairs(container_types) do
+	for _,proto in pairs(data.raw[type]) do
+		create_pickup_chest(proto)
+	end
 end
