@@ -1,12 +1,12 @@
 ---------------------------------------------------------------------------------------------------
 Version: 18.1.0
-Date: 2020-02-03
+Date: 2020-02-06
   Features:
     - Players can now pack up chests by mining them, no hotkey needed.
     - Players can now pack cars and tanks.
     - Containers maintain their health when picked up.
   Changes:
-    - Packed chests are sent to player's inventory instead of cursor
+    - Packed chests are sent to players' inventory instead of cursor
   Modding:
     - Mods can add a container::not_inventory_moveable property to have their container prototypes excluded from being moveable
 ---------------------------------------------------------------------------------------------------
