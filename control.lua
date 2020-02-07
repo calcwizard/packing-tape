@@ -8,6 +8,12 @@ local const = {
         ['cargo-wagon'] = defines.inventory.cargo_wagon,
         ['car'] = defines.inventory.car_trunk,
     },
+    entity_filters = {
+        {filter="type",type="container"},
+        {filter="type",type="logistic-container"},
+        {filter="type",type="cargo-wagon"},
+        {filter="type",type="car"}
+    }
 }
 
 -- in case anyone is still using the old filters format
@@ -53,7 +59,7 @@ end
 
 local function move_to_container(event)
     local stack = event.stack
-    if stack and stack.name:find(const.item_prefix_pattern) then
+    if stack and stack.valid_for_read and stack.name:find(const.item_prefix_pattern) then
 
 		local chest = event.created_entity
         local item_inventory = event.stack.get_inventory(defines.inventory.item_main)
@@ -136,8 +142,8 @@ local function move_to_inventory(event)
     end
 end
 
-script.on_event(defines.events.on_built_entity,move_to_container,{{filter="ghost",invert=true}})
-script.on_event(defines.events.on_pre_player_mined_item, move_to_inventory)
+script.on_event(defines.events.on_built_entity,move_to_container,const.entity_filters)
+script.on_event(defines.events.on_pre_player_mined_item, move_to_inventory,const.entity_filters)
 script.on_event("packing-tape-pickup", function(event)
     event.entity = game.get_player(event.player_index).selected
     if event.entity then

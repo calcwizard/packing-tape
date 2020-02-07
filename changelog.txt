@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 18.1.1
+Date: 2020-02-06
+  Bugfixes:
+    - Fixed a crash when placing an entity (instead of item) through the map editor.
+---------------------------------------------------------------------------------------------------
 Version: 18.1.0
 Date: 2020-02-06
   Features:
@@ -6,9 +11,9 @@ Date: 2020-02-06
     - Players can now pack cars and tanks.
     - Containers maintain their health when picked up.
   Changes:
-    - Packed chests are sent to players' inventory instead of cursor
+    - Packed chests are sent to players' inventory instead of cursor.
   Modding:
-    - Mods can add a container::not_inventory_moveable property to have their container prototypes excluded from being moveable
+    - Mods can add a container::not_inventory_moveable property to have their container prototypes excluded from being moveable.
 ---------------------------------------------------------------------------------------------------
 Version: 18.0.1
 Date: 2020-02-03
@@ -18,12 +23,12 @@ Date: 2020-02-03
 Version: 18.0.0
 Date: 2020-01-27
   Features:
-    - Updated to Factorio version 0.18
+    - Updated to Factorio version 0.18.
   Graphics:
-    - New icon for carried chests
+    - New icon for carried chests.
 ---------------------------------------------------------------------------------------------------
 Version: 17.0.0
 Date: 2020-01-16
   Features:
-    - Adds a hotkey that allows players to pick up a chest with all the items inside it
-    - Keeps configuration on logistics chests
+    - Adds a hotkey that allows players to pick up a chest with all the items inside it.
+    - Keeps configuration on logistics chests.
