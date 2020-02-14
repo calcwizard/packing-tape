@@ -136,7 +136,7 @@ local function move_to_inventory(event)
                     local fuel_inv = chest.get_inventory(defines.inventory.fuel)
                     data.fuel = fuel_inv and fuel_inv.get_contents()
                 end
-                chest.destroy()
+                chest.destroy{raise_destroy=true}
             end
         end
     end
