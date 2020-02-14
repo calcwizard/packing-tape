@@ -42,10 +42,12 @@ end
 ]]
 
 local function add_icons(container)
-	local icons = container.icons or {{}}
+	local icons = util.table.deepcopy(container.icons) or {{}}
 	icons[1].icon = icons[1].icon or container.icon
-	icons[1].icon_size = icons[1].icon_size or container.icon_size
 	icons[1].icon_mipmaps = icons[1].icon_mipmaps or container.icon_mipmaps
+	for k,v in pairs(icons) do -- for the weirdos with icons AND icon_size
+		icons[k].icon_size = icons[k].icon_size or container.icon_size
+	end
 	--local size = icons[1].icon_size
 	icons[#icons+1] = {
 		icon = "__packing-tape__/graphics/icons/packing-tape-50.png",
@@ -59,19 +61,21 @@ end
 local function create_pickup_chest(container)
 	-- not_inventory_moveable is an optional flag mods can set to have their chest excluded
 	if not container.not_inventory_moveable and is_placeable(container.flags or {}) then
-		data:extend{
-		{
-			name = "packing-tape-" .. container.name,
-			type = "item-with-inventory",
-			localised_name = {"item-name.packing-tape",{"entity-name."..container.name}},
-			icons = add_icons(container),
-			stack_size = 1,
-			flags = {"hidden"},
-			place_result = container.name,
-			inventory_size = container.inventory_size,
-			order = "z[packing]-" .. (container.order or ""),
-		}
-	}
+		local icons = add_icons(container)
+		if icons[1].icon and icons[1].icon_size then
+			data:extend{
+			{
+				name = "packing-tape-" .. container.name,
+				type = "item-with-inventory",
+				localised_name = {"item-name.packing-tape",{"entity-name."..container.name}},
+				icons = icons,
+				stack_size = 1,
+				flags = {"hidden"},
+				place_result = container.name,
+				inventory_size = container.inventory_size,
+				order = "z[packing]-" .. (container.order or ""),
+			}}
+		end
 	end
 end
 
