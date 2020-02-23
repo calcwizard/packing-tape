@@ -90,6 +90,10 @@ local function move_to_container(event)
                 transfer_simple_inventory(ammo_inv, data.ammo)
                 local fuel_inv = chest.get_inventory(defines.inventory.fuel)
                 transfer_simple_inventory(fuel_inv, data.fuel)
+                if data.fuel_burning and data.fuel_remaining and chest.burner  then
+                    chest.burner.currently_burning = data.fuel_burning
+                    chest.burner.remaining_burning_fuel = data.fuel_remaining
+                end
             end
         end
         global.items[stack.item_number] = nil
@@ -136,6 +140,10 @@ local function move_to_inventory(event)
                     data.ammo = ammo_inv and ammo_inv.get_contents()
                     local fuel_inv = chest.get_inventory(defines.inventory.fuel)
                     data.fuel = fuel_inv and fuel_inv.get_contents()
+                    if chest.burner then
+                        data.fuel_burning = chest.burner.currently_burning
+                        data.fuel_remaining = chest.burner.remaining_burning_fuel
+                    end
                 end
                 chest.destroy{raise_destroy=true}
             end
