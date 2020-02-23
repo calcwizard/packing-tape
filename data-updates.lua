@@ -1,11 +1,7 @@
 
-data:extend{
-	{
-		name = "packing-tape-pickup",
-		type = "custom-input",
-		key_sequence = "J",
-		action = "lua",
-	}
+local blacklist = {
+	["railloader-chest"] = true,
+	["railunloader-chest"] = true,
 }
 
 local function get_item(entity)
@@ -60,7 +56,7 @@ end
 
 local function create_pickup_chest(container)
 	-- not_inventory_moveable is an optional flag mods can set to have their chest excluded
-	if not container.not_inventory_moveable and is_placeable(container.flags or {}) then
+	if not blacklist[container.name] and not container.not_inventory_moveable and is_placeable(container.flags or {}) then
 		local icons = add_icons(container)
 		if icons[1].icon and icons[1].icon_size then
 			data:extend{

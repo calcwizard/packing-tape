@@ -2,6 +2,7 @@
 local const = {
     item_prefix = "packing-tape-",
     item_prefix_pattern = "^packing%-tape%-",
+    shortcut = "packing-tape-shortcut",
     chest_types = { -- the main inventory of each chest type
         ['container'] = defines.inventory.chest,
         ['logistic-container'] = defines.inventory.chest,
@@ -107,7 +108,7 @@ local function move_to_inventory(event)
             -- Create an item-with-inventory in an available slot
             local stack = find_empty_item_stack(p_inv, item_name)
             -- Should have stack since we can insert but check anyway.
-            if stack and stack.set_stack(item_name) then
+            if player.is_shortcut_toggled(const.shortcut) and stack and stack.set_stack(item_name) then
                 -- Set health in case the chest is pre-damaged
                 stack.health = chest.get_health_ratio()
                 local proto = chest.prototype
@@ -142,12 +143,43 @@ local function move_to_inventory(event)
     end
 end
 
+function toggle_shortcut(event)
+    if event.prototype_name == nil or event.prototype_name == const.shortcut then
+        local player = game.get_player(event.player_index)
+        player.set_shortcut_toggled(const.shortcut, not player.is_shortcut_toggled(const.shortcut))
+    end
+end
+
+function unpack_item(player, item_stack)
+    if item_stack.get_inventory(defines.inventory.item_main) and item_stack.get_inventory(defines.inventory.item_main).is_empty() then
+        local item_prototype = item_stack.prototype
+        local entity_prototype = item_prototype.place_result
+        if entity_prototype and entity_prototype.type ~= "car" then -- ignore cars, they only stack to 1 anyway and have other data stored with them
+            local target_items = entity_prototype.items_to_place_this --find the items that normally place this item (it should hopefully not be this item again)
+            if target_items and target_items[1] then
+                global.items[item_stack.item_number] = nil --remove the item from global to prevent data leaks
+                item_stack.clear() --remove the item first to ensure space in the inventory for the new item
+                player.insert(target_items[1])
+            end            
+        end
+    end
+end
+
 script.on_event(defines.events.on_built_entity,move_to_container,const.entity_filters)
 script.on_event(defines.events.on_pre_player_mined_item, move_to_inventory,const.entity_filters)
-script.on_event("packing-tape-pickup", function(event)
-    event.entity = game.get_player(event.player_index).selected
-    if event.entity then
-        move_to_inventory(event)
+script.on_event({defines.events.on_lua_shortcut,"packing-tape-pickup"}, toggle_shortcut)
+
+-- set it to toggled on when first loading
+script.on_event(defines.events.on_player_created, function(event)
+    game.get_player(event.player_index).set_shortcut_toggled(const.shortcut,true)
+end)
+
+script.on_event(defines.events.on_gui_closed, function(event) 
+    if event.gui_type == defines.gui_type.item then
+        local item = event.item
+        if item and item.valid_for_read and string.find(item.name, const.item_prefix_pattern) then
+            unpack_item(game.get_player(event.player_index), item)
+        end
     end
 end)
 

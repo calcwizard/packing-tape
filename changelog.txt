@@ -1,6 +1,21 @@
 ---------------------------------------------------------------------------------------------------
+Version: 18.2.0
+Date: 2020-02-23
+  Features:
+    - Added a toggle to control whether to pack chests or just mine it normally.
+  Bugfixes:
+    - icons-final-fixes: fixed changing other mods' chest icons if they used an icons table.
+    - script_raised_destroyed called when a chest is removed.
+  Modding:
+    - Blacklisted Bulk Rail Loader: they can no longer be packed.
+---------------------------------------------------------------------------------------------------
+Version: 18.1.2
+Date: 2020-02-09
+  Bugfixes:
+    - Fixed *another* conflict with mods that have chests without icons.
+---------------------------------------------------------------------------------------------------
 Version: 18.1.1
-Date: 2020-02-06
+Date: 2020-02-07
   Bugfixes:
     - Fixed a crash when placing an entity (instead of item) through the map editor.
 ---------------------------------------------------------------------------------------------------
